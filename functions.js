@@ -20,13 +20,13 @@ function interacoesUsuario(pergunta) {
 function classificacaoRank(xp) { // Faz a classificação do rank (elo) do personagem
 
     switch (true) {
-        case xp <= 1000:
+        case xp <= 500:
             return "Ferro";
-        case xp <= 2000:
+        case xp <= 1000:
             return "Bronze";
-        case xp <= 6000:
+        case xp <= 2000:
             return "Prata";
-        case xp <= 7000:
+        case xp <= 4000:
             return "Ouro";
         case xp <= 8000:
             return "Platina";
@@ -35,14 +35,18 @@ function classificacaoRank(xp) { // Faz a classificação do rank (elo) do perso
         case xp <= 10000:
             return "Imortal";
         default:
-            return "Radiante";
+            return "Deus";
     }
 
 }
 
+function combate(minXP, maxXP, dano){
 
+    
+    return [minXP * 0.9 + maxXP * 0.65, dano * 0.8 ] // 0 = XP, 1 = dano
+}
 
 
 
 //export default { classificacaoRank, interacoesUsuario }; // coloca virgula para amis valores 
-module.exports = { classificacaoRank, interacoesUsuario };
+module.exports = { classificacaoRank, interacoesUsuario, combate };
