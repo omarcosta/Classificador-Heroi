@@ -1,5 +1,5 @@
 // IMPORTS
-const { classificacaoRank, interacoesUsuario, combate } = require('./functions.js');
+const { classificacaoRank, interacoesUsuario, combate, ajusteValor } = require('./functions.js');
 const msg = require('./mensagens-br.js');
 
 async function main() {
@@ -18,19 +18,11 @@ async function main() {
     let acao;
     let erroAcao = 0;
 
-    // XP randomico
     let maxXP = 1000; // Valor máximo de xp
     let minXP = 50; // Valor minimo de xp
     let xp = Math.floor(Math.random() * maxXP); // Gerando um número aleatório entre 0 e xpMax
-    // Balanceamento de XP inicial
-    // Com sorte pega rank bronze
-    if ((xp + minXP) < maxXP) {
-        xp = xp + minXP;
-    } else {
-        xp = maxXP;
-    }
-    // console.log(xp);
-
+    xp = ajusteValor(minXP, maxXP, xp); // Balanceamento de XP inicial
+    
     // Game
     const stage = [ // 0 = nome, 1 = inimigos encontrados, 2 = final da mensagem, 3 = minXP, 5 = maxXP, 5 = dano, 
         // A frase será: ${nome}, você chegou ${local} e encontrou ${inimigos} no caminho.
@@ -47,12 +39,27 @@ async function main() {
     ]
 
     let i = 0;
-
     while (i < stage.length) {
         
-        console.log(hud = msg.hud(nome, xp,vida,vigor)); // HUD 
-        acao = await interacoesUsuario(msg.action(nome, stage[i][0], stage[i][1], stage[i][2])); // Escolha de ação
+        console.log(hud = msg.hud(nome, xp,vida,vigor, i+1)); // HUD 
         
+        let acaoOpcao = false;
+        let contadorOpcaoInvalida = 0;
+        while (acaoOpcao === false) {
+            acao = await interacoesUsuario(msg.action(nome, stage[i][0], stage[i][1], stage[i][2])); // Escolha de ação
+            
+            if (acao === "0" || acao === "1" || acao === "2" || acao === "3") {
+                acaoOpcao = true;
+            } else {
+                if(contadorOpcaoInvalida < 3) {
+                    console.log(msg.actionInvalida);
+                } else {
+                    console.log(msg.actionInvalidaPercistente);
+                }
+                contadorOpcaoInvalida++
+            }
+        }
+
         // minXP, maxXP, dano
         batalha = combate(stage[i][3], stage[i][4], stage[i][5]);
         xp = xp + Math.floor(batalha[0]);
@@ -61,14 +68,7 @@ async function main() {
         i++
     }
 
-
-
-
-
-
-
-    // PROCESS
-    let rank = classificacaoRank(xp);
+    let rank = classificacaoRank(xp); // Classifica o rank com base no XP
 
     // OUTPUTS
     console.log(

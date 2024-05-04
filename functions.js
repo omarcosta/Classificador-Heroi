@@ -46,7 +46,15 @@ function combate(minXP, maxXP, dano){
     return [minXP * 0.9 + maxXP * 0.65, dano * 0.8 ] // 0 = XP, 1 = dano
 }
 
+function ajusteValor(min, max, x = 0) {
+    if ((x + min) < max) {
+        x = x + min;
+    } else {
+        x = max;
+    }
+}
+
 
 
 //export default { classificacaoRank, interacoesUsuario }; // coloca virgula para amis valores 
-module.exports = { classificacaoRank, interacoesUsuario, combate };
+module.exports = { classificacaoRank, interacoesUsuario, combate, ajusteValor };
