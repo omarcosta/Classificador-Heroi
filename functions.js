@@ -1,6 +1,6 @@
 
 
-function interacoesUsuario(pergunta) {
+function interacoesUsuario(pergunta) { // Interações de input de dados pelo jogador
     return new Promise((resolve, reject) => {
         const readline = require('readline');
         const rl = readline.createInterface({
@@ -40,21 +40,34 @@ function classificacaoRank(xp) { // Faz a classificação do rank (elo) do perso
 
 }
 
-function combate(minXP, maxXP, dano){
+function combate(minXP, maxXP, dano, acao){ // Rodomiza XP e Dano com base em parametros de ação escolhida
+   
+    let randomValue = Math.random();
+    let xp = ajusteValor(minXP, maxXP, randomValue * maxXP);
 
-    
-    return [minXP * 0.9 + maxXP * 0.65, dano * 0.8 ] // 0 = XP, 1 = dano
+    switch (true) {
+        case acao === "1":                                     // Easy
+            randomValue = ajusteValor(0.4, 0.65, randomValue) // 40% a 65%
+            return [xp * randomValue, dano * randomValue];
+        case acao === "2":                                  // Normal
+            randomValue = ajusteValor(0.7, 1, randomValue) // 65% a 100%
+            return [xp * randomValue, dano * randomValue];
+        case acao === "3":                                    // Hard
+            randomValue = ajusteValor(0.9, 1.35, randomValue) // 90% a 135%
+            return [xp * randomValue, dano * randomValue];
+        default:                                                  // Run
+            randomValue = ajusteValor(-0.05, 0.40, randomValue) // -5% a 40%
+            return [xp * randomValue, 0];
+    }
 }
 
-function ajusteValor(min, max, x = 0) {
-    if ((x + min) < max) {
+function ajusteValor(min, max, x = 0) { // Ajusta o valor randomico considerando um valor minimo e maximo
+    if ((x + min) <= max) {
         x = x + min;
     } else {
         x = max;
     }
+    return x;
 }
-
-
-
-//export default { classificacaoRank, interacoesUsuario }; // coloca virgula para amis valores 
+ 
 module.exports = { classificacaoRank, interacoesUsuario, combate, ajusteValor };

@@ -1,6 +1,5 @@
 let separador = '⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘ ⫘';
 
-
 const mensagem = {
     saudacao: `${separador}\n                                 Olá, herói! \n                            Bem-vindo ao jogo!\n${separador} \n`,
     introducao: "Das humildes origens surgem os mais nobres destinos.\nHoje, um aldeão, amanhã, um herói... e por que não até mesmo um Deus?",
@@ -25,8 +24,11 @@ const mensagem = {
     Lv : ${nivel} | 🎖 : ${rank} | XP : ${xp} | ❤︎ : ${vida} | ⚡︎ : ${vigor} | ⚔ : ${batalhas}\n
     Que novas aventuras o aguarde! 
     (૭ ｡•̀ ᵕ •́｡ )૭ 
-    \n${separador}`
+    \n${separador}`,
+    morte: (nome) => `${separador}
+    Você lutou bravamente, ${nome}.
+    Seu legado será lembrado por muitas gerações como o de um verdadeiro herói. 
+    Descanse em paz, guerreiro ( つ╥ᯅ╥)つ`
 };
 
 module.exports = mensagem;
-//module.exports = { mensagem };
